@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS File -->
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="page">
+        <!-- START SIDE BAR -->
+        <div class="sideBar">
+            <a href="{% url 'landing' %}"><img  style="height: 60px; margin: 40px 40px;" src="{% static 'images/car-logo.png' %}" alt=""></a>
+            <ul>
+                <li>
+                    <a href="{% url 'dashboard' %}">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'cars' %}">
+                        <i class="fa-solid fa-car"></i>
+                        <span>Voitures</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'reservation' %}">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Reservations</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'users' %}">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'reviews' %}">
+                        <i class="fa-solid fa-star"></i>
+                        <span>Avis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logs' %}">
+                        <i class="fa-solid fa-file"></i>
+                        <span>Historique</span>
+                    </a>
+                </li>
+                <li class="log-out">
+                    <a href="{% url 'logout' %}">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- END SIDE BAR -->
+        <!-- ------------------------------->
+        <!-- START HEADER -->
+        <div class="dashboard">
+            <header>
+                <div class="container">
+                    <h2>Réservations</h2>
+                    <ul>
+                        <li><a href="{% url 'landing' %}"><i class="fa-regular fa-user"></i><span>{{ request.user.username }}</span></a></li>
+                    </ul>
+                </div>
+            </header>
+
+            
+            <!-- START RESRVATION -->
+            <div class="reservation">
+                <div class="NonConfirme">
+                    <h3>Non Confirmé</h3>
+                    <!-- NON CONFIRME RESERVATION LOOP -->
+                    {% for reservation in non %}
+                    <div class="res">
+                        <div class="carImage">
+                            <img src="{{reservation.car.photo.url}}" alt="">
+                            <div class="carInfo">
+                                <span>{{reservation.car.brand}}</span>
+                                <h2>{{reservation.car.model}}</h2>
+                                <span>{{reservation.car.year}}</span>
+                            </div>
+                        </div>
+                        <div class="other">
+                            <span class="user"><!-- to user page --><a href="#"><i class="fa-solid fa-user"></i> {{reservation.client.username}}</a></span>
+                            <span>De {{reservation.start}}</span>
+                            <span>à {{reservation.end}}</span>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ reservation.id }}" name="id">
+                                <input type="hidden" value="confirmer" name="button">
+                                <input type="submit" value="Confirmer">
+                            </form>
+                            
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                    <!-- -------------------------------- -->
+                </div>
+
+                <div class="confirme">
+                    <h3>Confirmé</h3>
+                    <!-- CONFIRME RESERVATION LOOP -->
+                    {% for reservation in confirmed %}
+                    <div class="res">
+                        <div class="carImage">
+                            <img src="{{ reservation.car.photo.url }}" alt="">
+                            <div class="carInfo">
+                                <span>{{reservation.car.brand}}</span>
+                                <h2>{{reservation.car.model}}</h2>
+                                <span>{{reservation.car.year}}</span>
+                            </div>
+                        </div>
+                        <div class="other">
+                            <span class="user"><!-- to user page --><a href="#"><i class="fa-solid fa-user"></i> {{reservation.client.username}}</a></span>
+                            <span>De {{reservation.start}}</span>
+                            <span>à {{reservation.end}}</span>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ reservation.id }}" name="id">
+                                <input type="hidden" value="annuler" name="button">
+                                <input type="submit" value="Annuler">
+                            </form>
+                            
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- ------------------------ -->
+
+                </div>
+            </div>
+            
+            </div>
+            <!-- END RESRVATION -->
+        </div>
+
+
+
+    </div>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
+        

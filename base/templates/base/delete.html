@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS File -->
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="page">
+        <!-- START SIDE BAR -->
+        <div class="sideBar">
+            <h2>Logo</h2>
+            <ul>
+                <li>
+                    <a href="index.html">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="voiture.html">
+                        <i class="fa-solid fa-car"></i>
+                        <span>Voitures</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="reservation.html">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Reservations</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="utilisateur.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Avis.html">
+                        <i class="fa-solid fa-star"></i>
+                        <span>Avis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Historique.html">
+                        <i class="fa-solid fa-file"></i>
+                        <span>Historique</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="revenu.html">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span>Revenue</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="parametre.html">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Paramètres</span>
+                    </a>
+                </li>
+                <li class="log-out">
+                    <a href="Déconnexion.html">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- END SIDE BAR -->
+        <!-- ------------------------------->
+        <!-- START HEADER -->
+        <div class="dashboard">
+            <header>
+                <div class="container">
+                    <h2>Dashboard</h2>
+                    <ul>
+                        <li><a href="{% url 'landing' %}"><i class="fa-regular fa-user"></i><span>{{ request.user.username }}</span></a></li>                    </ul>
+                </div>
+            </header>
+
+
+            <div style="width: 80%; margin: 95px auto; text-align: center;">
+                <h1>
+                    Voulez-vous vraiment supprimer {{ object }} {{ name }} ?
+                </h1>
+                <form action="" method="post" style="display: block;">
+                    {% csrf_token %}
+                    <button type="submit" style="background-color: transparent; cursor: pointer; color: red; border: 1px solid red; font-weight: 500; font-size: 16px; margin: 80px 0; padding: 10px 20px;">Supprimer</button>
+                </form>
+                
+                <a href="{{request.META.HTTP_REFERER}}" style="background-color: transparent; cursor: pointer; color: #000; border: none; font-weight: 500; font-size: 16px; margin: 80px 0; padding: 10px 20px;">Annuler</a>
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
+        

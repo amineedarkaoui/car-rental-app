@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS FILES -->
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Voiture</title>
+</head>
+<body>
+    <div class="page page-modification">
+        <!-- START SIDE BAR -->
+        <div class="sideBar">
+            <a href="{% url 'landing' %}"><img  style="height: 60px; margin: 40px 40px;" src="{% static 'images/car-logo.png' %}" alt=""></a>
+            <ul>
+                <li>
+                    <a href="{% url 'dashboard' %}">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'cars' %}">
+                        <i class="fa-solid fa-car"></i>
+                        <span>Voitures</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'reservation' %}">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Reservations</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'users' %}">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'reviews' %}">
+                        <i class="fa-solid fa-star"></i>
+                        <span>Avis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logs' %}">
+                        <i class="fa-solid fa-file"></i>
+                        <span>Historique</span>
+                    </a>
+                </li>
+                <li class="log-out">
+                    <a href="{% url 'logout' %}">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- END SIDE BAR -->
+        <!-- ------------------------------->
+
+
+        <div class="main">
+            <div class="modif-form">
+                <span><a href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-chevron-left"></i></a> <h1>Ajouter nouvelle voiture</h1></span>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h3>Informations Principales</h3>
+                    <label for="">Marque</label>
+                    <input type="text" name="brand" id="">
+                    <label for="">Modèle</label>
+                    <input type="text" name="model" id="">
+                    <label for="">Année</label>
+                    <input type="text" name="year" id="">
+                    <h3>informations supplémentaires</h3>
+                    <label for="">Prix par jour</label>
+                    <input type="text" name="price" id="">
+                    <label for="">Kilomètrage</label>
+                    <input type="text" name="km" id="">
+                    <label for="">Couleur</label>
+                    <input type="text" name="color" id="">
+                    <label for="">Description</label>
+                    <textarea name="description" cols="45" rows="10"></textarea>
+                    <input type="submit" value="Sauvegarder" class="sauvegarder-btn">
+                    <br>
+                </div>
+            <div class="right">
+                <div class="moddifierVoiture-header">
+                    <ul>
+                        <li><a href="{% url 'landing' %}"><i class="fa-regular fa-user"></i><span>{{ request.user.username }}</span></a></li>                    </ul>
+                </div>
+                <div class="image-upload">
+                    <div class="car-image">
+                        <img src="{% static 'images/car-icon.png' %}" alt="">
+                    </div>
+                        <label for="image-upload" class="image-upload-btn">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                            Ajouter Photo
+                        </label>
+                        <input id="image-upload" type="file" name="photo">
+                </div>
+            </div>
+        </div>
+                </form>
+            
+
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'style/app.css' %}">
+        <!-- Font-Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <!-- Google Font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <title>Location voiture</title>
+    </head>
+    <style>
+        body{
+            background: #FFF;
+        }
+        header{
+            position: static;
+        }
+.header-container{
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(-17px);
+    animation-name: main-animation;
+    animation-delay: 0.3s;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+}
+
+.header-container ul li{
+    display: inline-block;
+}
+.header-container ul li a{
+    display: block;
+    color: #000;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    font-size: 15px;
+    padding-bottom: 5px;
+    position: relative;
+}
+.header-container ul li a::before{
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #000;
+    bottom: 0;
+    transition: 0.4s;
+}
+.header-container ul li a:hover::before{
+    width: 100%;
+}
+.header-container div:first-child{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-container div:first-child a.logo{
+    display: block;
+    text-decoration: none;
+    color: #000;
+    font-weight: 700;
+    font-size: 31px;
+}
+.header-container div:first-child a.logo::first-letter{
+    font-size: 35px;
+}
+.header-container div:first-child .search-box{
+    background: #fff;
+    border: 1px solid #a8a8a8;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    width: 50%;
+}
+.header-container div:first-child .search-box i{
+    color: #a8a8a8;
+    font-size: 17px;
+}
+.header-container div:first-child .search-box input{
+    outline: none;
+    border: none;
+    padding: 4px 8px;
+    width: 100%;
+    font-size: 14px;
+}
+.date div input{
+    padding: 4px 7px;
+    width: 400px;
+    font-size: 17px;
+    background: #EEE;
+    color: #4265cb;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    outline: none;
+    opacity: 0;
+    transform: translateX(50px);
+    animation-name: input-animation;
+    animation-delay: 0.3s;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+}
+
+    </style>
+<body>
+    <header class="navbar">
+        <div class="header-container">
+            <div>
+                <a href="{% url 'landing' %}" class="logo"><img src="{% static 'images/car-logo.png' %}" alt=""></a>
+                <div class="search-box">
+                    <a href="#" class="search-button"><i class="fas fa-search"></i></a>
+                    <input type="text" name="search" id="" placeholder="Search">
+                    
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'car-page' %}">Our cars</a></li>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff %}
+                            <li><a href="{% url 'dashboard' %}">{{request.user.username}}</a></li>
+                        {% else %}
+                        <li class="name-user">
+                            <a href="{% url 'profil' %}"><i class="fa-solid fa-user"></i> {{ request.user.username }}</a>
+                            <ul class="profil-ul">
+                                <li><a href="{% url 'profil' %}">Paramètre</a></li>
+                                <li><a href="{% url 'logout' %}">Déconnexion</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="carInfo">
+        <div class="carPic">
+            <img src="{{car.photo.url}}" alt="">
+        </div>
+        <div class="info">
+            <div>{{car.brand}} {{car.model}} <br> <span>{{car.year}}</span></div>
+            <div>
+                <span><i class="fa-solid fa-palette"></i> {{car.color}}</span>
+                <span><i class="fa-solid fa-gauge-high"></i> {{car.km}}</span>
+                <div><img src="{% static 'images/car.png' %}"> 5</div>
+            </div>
+            <div>{{car.price}} DH/jr</div>
+        </div>
+       </section>
+
+
+       <section class="date">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div>
+                <label for="">Date début</label>      
+                <input type="date" name="start" id="">
+            </div>
+            <div>
+                <label for="">Date fin</label>
+                <input type="date" name="end" id="">
+            </div>
+            <button type="submit" value="Suivant" 
+                style="
+                        padding: 4px 7px;
+                        width: 400px;
+                        font-size: 17px;
+                        background: #4265cb;
+                        color: #fff;
+                        border: none;
+                        border-radius: 8px;
+                        margin-bottom: 8px;
+                        outline: none;
+                        opacity: 0;
+                        transform: translateX(50px);
+                        animation-name: input-animation;
+                        animation-delay: 0.3s;
+                        animation-duration: 0.3s;
+                        animation-fill-mode: forwards;
+                "
+            >Suivant</button>
+            </form>
+            
+       </section>
+
+        <!-- footer -->
+        <footer>
+            <a href="{% url 'landing' %}"><img  style="height: 100px; margin: 20px 0;" src="{% static 'images/car-logo.png' %}" alt=""></a>            <div class="links">
+            <a href="{% url 'car-page' %}">Our cars</a>
+            <a href="{% url 'avis' %}">rédiger un avis</a>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'profil' %}">{{request.user.username}}</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+        <br><br><br>
+        <div class="reseau-sociaux">
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+    </footer>
+        <!-- footer -->
+<script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

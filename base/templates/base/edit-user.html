@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS FILES -->
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Voiture</title>
+</head>
+<body>
+    <div class="page page-modification">
+        <!-- START SIDE BAR -->
+        <div class="sideBar">
+            <a href="{% url 'landing' %}"><img  style="height: 60px; margin: 40px 40px;" src="{% static 'images/car-logo.png' %}" alt=""></a>
+            <ul>
+                <li>
+                    <a href="{% url 'dashboard' %}">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'cars' %}">
+                        <i class="fa-solid fa-car"></i>
+                        <span>Voitures</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'reservation' %}">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Reservations</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'users' %}">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'reviews' %}">
+                        <i class="fa-solid fa-star"></i>
+                        <span>Avis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logs' %}">
+                        <i class="fa-solid fa-file"></i>
+                        <span>Historique</span>
+                    </a>
+                </li>
+                <li class="log-out">
+                    <a href="{% url 'logout' %}">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- END SIDE BAR -->
+        <!-- ------------------------------->
+
+
+        <div class="main" style="width: 100%;">
+            <div class="modif-form" style="width: 100%;">
+                <span><a href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-chevron-left"></i></a> <h1>Modifier User</h1></span>
+                <form action="" method="post" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    {% csrf_token %}
+                    <div style="width: 55%;">
+                        <label for="" style="margin: 11px 0;">Nom d'utilisateur</label>
+                        <input type="text" name="username" id="" style="width: 100%;" value="{{ user.username }}">
+                    </div>
+                    <div style="width: 55%;">
+                        <label for="" style="margin: 11px 0;">Téléphone</label>
+                        <input type="text" name="phone" id="" style="width: 100%;" value="{{ user.info.phone }}">
+                    </div>
+                    <div style="width: 55%;">
+                        <label for="" style="margin: 11px 0;">Email</label>
+                        <input type="text" name="email" id="" style="width: 100%;" value="{{ user.email }}">
+                    </div>
+                    <div style="width: 55%;">
+                        <label for="" style="margin: 11px 0;">Mot de passe</label>
+                        <input type="text" name="password" id="" style="width: 100%;">
+                    </div>
+                    <input type="submit" value="Sauvegarder" class="sauvegarder-btn">
+                </form>
+            </div>
+            
+        </div>
+
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

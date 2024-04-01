@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style/app.css' %}">
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Location voiture</title>
+</head>
+<body>
+    <header class="navbar">
+        <div class="header-container">
+            <div>
+                <a href="{% url 'landing' %}" class="logo"><img src="{% static 'images/car-logo.png' %}" alt=""></a>
+                <div class="search-box">
+                    <a href="#" class="search-button"><i class="fas fa-search"></i></a>
+                    <input type="text" name="search" id="" placeholder="Search">
+                    
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#cars">Our cars</a></li>
+                    <li><a href="#contact-us">Contact us</a></li>
+                    <li><a href="#appropos-nous">About us</a></li>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff %}
+                            <li><a href="{% url 'dashboard' %}">{{request.user.username}}</a></li>
+                        {% else %}
+                        <li class="name-user">
+                            <a href="{% url 'profil' %}"><i class="fa-solid fa-user"></i> {{ request.user.username }}</a>
+                            <ul class="profil-ul">
+                                <li><a href="{% url 'profil' %}">Paramètre</a></li>
+                                <li><a href="{% url 'logout' %}">Déconnexion</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Accueil -->
+    <section class="main">
+        <div class="content-container">
+            <h1>Explorez le Monde en Confort</h1>
+            <br>
+            <p>Découvrez la liberté de la route avec RegRent. Louez votre voiture en quelques clics et partez à l'aventure dès maintenant. Simple, abordable, inoubliable.</p>
+        </div>
+        <div class="down"><a href="#cars"><i class="fa-solid fa-arrow-down"></i></a></div>
+    </section>
+    <!-- ---------------- -->
+
+
+
+    <!-- cars -->
+    <div id="cars" style="height: 55px;"></div>
+    <div class="title" >Nos Voiture</div>
+    <section class="cars">
+        {% for car in cars %}
+        <div class="car">
+            <div class="imageBox">
+                <img src="{{ car.photo.url }}">
+            </div>
+            <div class="main-car-info">
+                <span><a href="{% url 'car-info' car.id %}">{{ car.brand }} {{ car.model }}</a> <br> <span>{{ car.year }}</span> </span>
+                <span> <!--prix--> {{ car.price }} DH/jr</span>
+            </div>
+            <div class="other-car-info">
+                <span><i class="fa-solid fa-palette"></i> {{ car.color }}</span>
+                <span><i class="fa-solid fa-gauge-high"></i> {{ car.km }}</span>
+                <span><img src="{% static 'images/car.png' %}"> 5</span>
+            </div>
+            <div class="reserverBtn">
+                <a href="{% url 'reserver' car.id %}">Reserver</a>
+            </div>
+        </div>
+        {% endfor %}
+
+
+        <div class="voirPlus">
+            <a href="{% url 'car-page' %}">Voir plus</a>
+        </div>
+    </section>
+
+
+
+    <!-- cars -->
+
+    <!-- QUALITE -->
+    <div class="title" id="privilege">Nos Privilèges</div>
+    <section class="privileges">
+        <div class="scroll">
+            <div class="privilege">
+                <img src="{% static 'images/customer-support.png' %}" alt="">
+            </div>
+            <h1>Garantir votre comfort</h1>
+        </div>
+        <div>
+            <div class="privilege">
+                <img src="{% static 'images/support.png' %}" alt="">
+            </div>
+            <h1>Service clientèle exceptionnel</h1>
+        </div>
+        <div>
+            <div class="privilege">
+                <img src="{% static 'images/pay.png' %}" alt="">
+            </div>
+            <h1>Payement espèce</h1>
+        </div>
+    </section>
+    <!-- QUALITE -->
+
+    <!-- contact us -->
+    <div  id="contact-us" style="height: 55px;"></div>
+    <section class="contact-us">
+        <div class="title">Contactez-nous</div>
+        <div class="contact-container">
+            <div class="contact">
+                <i class="fa-solid fa-phone-volume"></i>
+                <div class="contact-text"><span>Appelez-nous</span> <br> +212555555</div>
+            </div>
+            <div class="contact">
+                <i class="fa-solid fa-envelope"></i>
+                <div class="contact-text"><span>Email</span> <br> contact@gmail.com</div>
+            </div>
+            <div class="contact">
+                <i class="fa-solid fa-map-location"></i>
+                <div class="contact-text"><span>Adress</span> <br> Casablanca Anfa place</div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- contact us -->
+
+
+    <!-- avis -->
+    <div class="title">Que disent nos client ?</div>
+    <section class="all-avis">
+        {% for review in reviews %}
+        <div class="avis">
+            <div class="text">{{ review.message }}</div>
+            <div class="user"><i class="fa-regular fa-user"></i> {{ review.client.username }}</div>
+        </div>
+        {% endfor %}
+
+
+            <div class="voirPlus" style="z-index: 999;">
+                <a href="{% url 'avis' %}">Donnez-votre avis</a>
+            </div>
+    </section>
+    <!-- avis -->
+
+    <!-- appropos de nous -->
+    <div  id="appropos-nous" style="height: 55px;"></div>
+    <section class="appropos-nous">
+        <div class="title">Appropos de nous</div>
+        <div class="text1">
+            Bienvenue chez RegRent, votre partenaire de confiance pour la location de voitures au Maroc. Chez RegRent, nous nous engageons à fournir un service de location de voitures exceptionnel, sur mesure selon vos besoins, tout en vous offrant une expérience de conduite inoubliable à travers les magnifiques paysages marocains.
+
+Notre Histoire
+
+Fondée en 2020, RegRent est le résultat d'une passion commune pour le voyage et la découverte. En tant qu'entreprise marocaine fière, nous sommes ancrés dans la richesse culturelle et la diversité géographique de notre pays. Au fil des années, nous avons établi des partenariats solides avec les principales agences de location de voitures, ce qui nous permet de vous offrir un choix varié de véhicules de qualité à des tarifs compétitifs.
+
+Notre Mission
+
+Notre mission est de faciliter vos déplacements au Maroc en mettant à votre disposition une flotte de véhicules bien entretenus et à la pointe de la technologie. Que vous soyez ici pour affaires ou pour le plaisir, notre objectif est de rendre votre expérience de conduite aussi agréable et sans souci que possible. Nous nous efforçons de dépasser vos attentes en fournissant un service personnalisé et en veillant à ce que chaque kilomètre parcouru soit une aventure mémorable.
+
+Pourquoi Choisir RegRent ?
+
+Variété de Véhicules : De la voiture compacte idéale pour la ville au SUV spacieux pour les escapades en famille, nous avons une large gamme de véhicules adaptés à tous les besoins.
+
+Transparence et Honnêteté : Chez RegRent, nous croyons en la transparence. Aucun frais caché, des tarifs clairs et une politique de location compréhensible.
+
+Service Clientèle Exceptionnel
+        </div>
+        <br>
+        <div class="text2">
+            Notre équipe dévouée est disponible pour vous assister à chaque étape de votre location. Que ce soit pour des conseils sur l'itinéraire ou pour résoudre des problèmes éventuels, nous sommes là pour vous.
+Explorez le Maroc à votre rythme avec RegRent. Réservez dès maintenant et préparez-vous à vivre une aventure automobile sans pareille.
+        </div>
+    </section>
+    <!-- appropos de nous -->
+
+
+    <!-- footer -->
+    <footer>
+        <a href="{% url 'landing' %}"><img  style="height: 100px; margin: 20px 0;" src="{% static 'images/car-logo.png' %}" alt=""></a>
+        <div class="links">
+            <a href="#cars">Our cars</a>
+            <a href="#contact-us">Contact us</a>
+            <a href="#appropos-nous">About us</a>
+            <a href="{% url 'avis' %}">rédiger un avis</a>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'profil' %}">{{request.user.username}}</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+            
+        </div>
+        <br><br><br>
+        <div class="reseau-sociaux">
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+    </footer>
+    <!-- footer -->
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

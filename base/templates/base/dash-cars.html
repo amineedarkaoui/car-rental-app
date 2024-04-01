@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS FILES -->
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Voiture</title>
+    
+</head>
+<body>
+    <div class="page-voiture page">
+        <!-- START SIDE BAR -->
+        <div class="sideBar">
+            <a href="{% url 'landing' %}"><img  style="height: 60px; margin: 40px 40px;" src="{% static 'images/car-logo.png' %}" alt=""></a>
+            <ul>
+                <li>
+                    <a href="{% url 'dashboard' %}">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="active" href="{% url 'cars' %}">
+                        <i class="fa-solid fa-car"></i>
+                        <span>Voitures</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'reservation' %}">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Reservations</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'users' %}">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'reviews' %}">
+                        <i class="fa-solid fa-star"></i>
+                        <span>Avis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logs' %}">
+                        <i class="fa-solid fa-file"></i>
+                        <span>Historique</span>
+                    </a>
+                </li>
+                <li class="log-out">
+                    <a href="{% url 'logout' %}">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- END SIDE BAR -->
+        <!-- ------------------------------->
+        <!-- START DASHBOARD -->
+            <div class="dashboard">
+            <!-- START HEADER -->
+            <header>
+                <div class="container">
+                    <h2>Voitures</h2>
+                    <ul>
+
+                        <li><a href="{% url 'landing' %}"><i class="fa-regular fa-user"></i><span>{{ request.user.username }}</span></a></li>
+                    </ul>
+                    </div>
+                </header>
+            <!-- END HEADER -->
+            <!-- ----------- -->
+
+            <!-- START CARS CONTENT -->
+            
+                <div class="cars">
+                    <a href="{% url 'add-car'%}" class="ajouterLien">+ Ajouter une voiture</a>
+                    <!-- -------------   CARS LOOP  ---------------------- -->
+                    {% for car in cars %}
+                    <div class="car">
+                        <div class="main-info">
+                            <div class="car-image">
+                                <img src="{{ car.photo.url }}" alt="">
+                            </div>
+                            <div class="car-name">
+                                <span>{{car.brand}}</span>
+                                <h2>{{car.model}}</h2> 
+                                <span>{{car.year}}</span>
+                            </div>
+                        </div>
+                        <div class="other-info">
+                            <span><i class="fa-solid fa-palette"></i> {{car.color}}</span>
+                            <span><i class="fa-solid fa-gauge-high"></i> {{car.km}} KM</span>
+                            {% if car.available == True %}
+                            <span class="disponible">Disponible</span>
+                            {% else %}
+                            <span class="reserved">Reservé</span>
+                            {% endif %}
+                            <span class="edit-icons">
+                                <a href="{% url 'edit-car' car.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a href="{% url 'delete-car' car.id %}"><i class="fa-solid fa-trash-can"></i></a>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- --------------------------------------------- -->
+                    {% endfor %}    
+                </div>
+           
+            <!-- END CARS CONTENT -->
+
+
+    </div>
+
+
+
+    <script src="main.js"></script>
+</body>
+</html>
